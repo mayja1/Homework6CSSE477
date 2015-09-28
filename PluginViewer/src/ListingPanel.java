@@ -43,7 +43,11 @@ public class ListingPanel extends JPanel {
 	}
 	
 	public void addPlugin(String name, JPanel panel) {
-		this.panelMap.put(name, panel);
-		this.listModel.addElement(name);
+		if(!panelMap.containsKey(name)){
+			this.panelMap.put(name, panel);
+			this.listModel.addElement(name);
+			this.validate();
+			this.repaint();
+		}
 	}
 }

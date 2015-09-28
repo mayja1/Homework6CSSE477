@@ -10,6 +10,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class PluginPanel extends JPanel {
 
@@ -23,17 +24,32 @@ public class PluginPanel extends JPanel {
 		displayPanel = new JPanel();
 		this.setLayout(new BorderLayout());
 		this.add(listingPanel, BorderLayout.WEST);
-		this.add(statusPanel, BorderLayout.SOUTH);
+		this.add(new JScrollPane(statusPanel), BorderLayout.SOUTH);
 		this.add(displayPanel, BorderLayout.CENTER);
-		try {
-			getJarFiles();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		// DefaultPlugin testPlugin = new DefaultPlugin();
 		// testPlugin.addReceiver(statusPanel);
 		// listingPanel.addPlugin("Test", testPlugin.getPanel());
+		Thread t = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					while(true) {
+						Thread.sleep(1000);
+						getJarFiles();
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		t.start();
 	}
 
 	public void setDisplayPanel(JPanel dPanel) {
