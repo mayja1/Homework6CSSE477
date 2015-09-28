@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -49,5 +50,12 @@ public class ListingPanel extends JPanel {
 			this.validate();
 			this.repaint();
 		}
+	}
+	public Set<String> getPlugins(){
+		return this.panelMap.keySet();
+	}
+	public void removePlugin(String name){
+		this.panelMap.remove(name);
+		this.listModel.removeElement(name);
 	}
 }
