@@ -42,6 +42,7 @@ public class PluginPanel extends JPanel {
 		this.displayPanel = dPanel;
 		this.add(displayPanel, BorderLayout.CENTER);
 		this.validate();
+		this.repaint();
 	}
 
 	public void getJarFiles() throws IOException {
