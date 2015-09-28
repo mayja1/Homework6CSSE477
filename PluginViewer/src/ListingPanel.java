@@ -39,7 +39,7 @@ public class ListingPanel extends JPanel {
 			
 		});
 		this.add( listbox, BorderLayout.CENTER );
-		this.add(new JLabel("Pluign List"), BorderLayout.NORTH);
+		this.add(new JLabel("Plugin List"), BorderLayout.NORTH);
 	}
 	
 	public void addPlugin(String name, JPanel panel) {
