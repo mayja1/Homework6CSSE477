@@ -22,7 +22,7 @@ public class ListingPanel extends JPanel {
 	private JList<String> listbox;
 	private PluginPanel pluginPanel;
 	private HashMap<String, JPanel> panelMap;
-	private String active_plugin = "";
+	private String activePlugin;
 	
 	public ListingPanel(final PluginPanel pluginPanel) {
 		this.setLayout( new BorderLayout() );
@@ -33,13 +33,14 @@ public class ListingPanel extends JPanel {
 		this.panelMap = new HashMap<>();
 		listModel = new DefaultListModel<String>();
 		listbox = new JList<String>( listModel );
+		activePlugin = "";
 		listbox.addListSelectionListener(new ListSelectionListener() {
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				String name = listbox.getSelectedValue();
 				pluginPanel.setDisplayPanel(panelMap.get(name));
-				active_plugin = name;
+				activePlugin = name;
 			}
 			
 		});
@@ -55,20 +56,11 @@ public class ListingPanel extends JPanel {
 			this.repaint();
 		}
 	}
-	public Set<String> getPlugins(){
-		return this.panelMap.keySet();
-	}
-	public void removePlugin(String name){
-		this.panelMap.remove(name);
-		this.listModel.removeElement(name);
-		try {
-			Files.delete((new File("src/Temp_Plugins/" + name + ".jar")).toPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+	public void removePlugin(String name) {
+		if(activePlugin == name) {
+			listbox.setSelectedIndex(-1);
 		}
-		if(this.active_plugin == name){
-			this.listbox.setSelectedIndex(-1);
-		}
+		listModel.removeElement(name);
 	}
 }

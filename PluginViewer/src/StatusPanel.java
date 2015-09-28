@@ -1,15 +1,11 @@
 import interfaces.iStatusReceiver;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Observable;
-import java.util.Observer;
-
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 
@@ -20,8 +16,10 @@ public class StatusPanel extends JPanel implements iStatusReceiver {
 		this.setBorder(new LineBorder(Color.BLACK));
 		JLabel label = new JLabel("status");
 		l = new JLabel("<html></html>");
-		this.add(label, BorderLayout.NORTH);
-		this.add(l, BorderLayout.CENTER);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(label);
+		this.add(l);
+		this.add( Box.createVerticalStrut(400) );
 	}
 
 	@Override

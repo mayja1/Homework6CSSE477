@@ -8,7 +8,9 @@ public class PluginViewerApp {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(new PluginPanel());
+		PluginPanel panel = new PluginPanel();
+		frame.add(panel);
+		frame.setJMenuBar(panel.getMenuBar());
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.validate();
