@@ -2,9 +2,12 @@ import interfaces.PluginInterface;
 
 import java.awt.BorderLayout;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.jar.JarFile;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import static java.nio.file.StandardCopyOption.*;
 
 public class PluginPanel extends JPanel {
 
@@ -58,6 +63,9 @@ public class PluginPanel extends JPanel {
 	public void setDisplayPanel(JPanel dPanel) {
 		//System.out.println("Chaning display");
 		this.remove(displayPanel);
+		if(dPanel == null){
+			dPanel = new JPanel();
+		}
 		this.displayPanel = dPanel;
 		this.add(displayPanel, BorderLayout.CENTER);
 		this.validate();
@@ -72,12 +80,22 @@ public class PluginPanel extends JPanel {
 		because_Reasons.addAll(ss);
 		for (String file_name : files) {
 			file = new File("src/Plugins/" + file_name);
+			File temp = new File("src/Temp_Plugins/"+file_name);
+			FileInputStream fis = new FileInputStream(file);
+			FileOutputStream fos = new FileOutputStream(temp);
+			int bytesRead;
+			byte[] buf = new byte[1024];
+			while((bytesRead = fis.read(buf)) > 0){
+				fos.write(buf,0,bytesRead);
+			}
+			fis.close();
+			fos.close();
 			String classname = file_name.substring(0,file_name.length() - 4);
 			if (because_Reasons.contains(classname)) {
 				because_Reasons.remove(classname);
 				continue;
 			}
-			URL[] urls = new URL[] { file.toURI().toURL() };
+			URL[] urls = new URL[] { temp.toURI().toURL() };
 			URLClassLoader cl = new URLClassLoader(urls);
 			try {
 				Object plugin = cl.loadClass(classname).newInstance();
